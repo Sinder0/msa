@@ -20,7 +20,7 @@ public class AbilityService {
         return abilityRepository.findByName(name).orElse(null);
     }
 
-    public Ability findById(Long id) {
+    public Ability findById(final Long id) {
         return abilityRepository.findById(id).orElse(null);
     }
 
@@ -28,7 +28,7 @@ public class AbilityService {
         return abilityRepository.save(ability);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         abilityRepository.deleteById(id);
     }
 }

@@ -16,7 +16,7 @@ public class AbilityController {
 
     private final AbilityService abilityService;
 
-    @PostMapping("/getAll")
+    @GetMapping("/getAll")
     public ResponseEntity<List<Ability>> getAll() {
         return new ResponseEntity<>(abilityService.findAll(), HttpStatus.OK);
     }

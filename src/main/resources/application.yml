@@ -22,7 +22,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/msa_lw1
     username: postgres
-    password: testpass
+    password: root
 
   thymeleaf:
     cache: false
