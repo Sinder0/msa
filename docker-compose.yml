@@ -1,14 +1,33 @@
-version: "3"
+version: '3.8'
+
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/msa_lw1
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
+      - flyway
+
+  flyway:
+    image: flyway/flyway:9.22.0
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
-    networks:
-      - app-network
-  db:
+      - FLYWAY_URL=jdbc:postgresql://postgres:5432/msa_lw1
+      - FLYWAY_USER=postgres
+      - FLYWAY_PASSWORD=root
+    volumes:
+      - ./src/main/resources/db/migration:/flyway/sql
+    depends_on:
+      - postgres
+    entrypoint: ["flyway", "migrate"]
+
+  postgres:
     image: postgres:16
     environment:
       POSTGRES_USER: postgres
@@ -16,9 +35,3 @@ services:
       POSTGRES_DB: msa_lw1
     ports:
       - "5432:5432"
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
